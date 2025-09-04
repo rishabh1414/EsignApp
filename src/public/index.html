@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8" />
+  <title>eSign</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- PDF.js via reliable CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+  <script>
+    if (typeof window.pdfjsLib === "undefined") {
+      console.error("pdf.js did not load!");
+    } else {
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js";
+    }
+  </script>
+</head>
+
+<body>
+  <header class="topbar">
+    <h1>eSign</h1>
+    <div class="spacer"></div>
+    <button id="themeToggle" class="btn secondary" aria-label="Toggle theme">🌗</button>
+  </header>
+
+  <main class="container">
+    <section id="gate" class="card">
+      <h2>Checking Access…</h2>
+      <p class="muted">Please wait while we verify your link.</p>
+    </section>
+
+    <section id="unauth" class="card hidden">
+      <h2>Access Denied</h2>
+      <p>You are not a member of this company. Please contact the admin.</p>
+    </section>
+
+    <section id="app" class="hidden">
+      <p id="who" class="muted"></p>
+
+      <!-- Drag & Drop Upload -->
+      <section class="card">
+        <h3>Upload Signature</h3>
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Upload signature">
+          <div class="dz-icon">✍️</div>
+          <div class="dz-title">Drag & drop your signature</div>
+          <div class="dz-sub">or click to choose a PNG/JPG/WEBP</div>
+          <input id="sig" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+        </div>
+
+      </section>
+
+      <!-- PDF Preview -->
+      <section class="card">
+        <h3>Preview</h3>
+        <div id="pdfContainer" class="pdf-container"></div>
+        <p class="tips">Place the signature on the last page, adjust size using the corner handle, then click
+        <div class="actions">
+          <button id="btn-upload" class="btn" hidden>Attach Signature</button>
+          <button id="btn-sign" class="btn success" hidden>Sign</button>
+        </div>
+        </p>
+      </section>
+    </section>
+  </main>
+  <!-- Signed modal -->
+  <div id="doneModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="doneTitle">
+    <div class="modal-card">
+      <h2 id="doneTitle">Thank you — your document is signed</h2>
+      <p id="doneMsg" class="muted">
+        HR will review and file your document shortly. You may safely close this window.
+      </p>
+      <div class="actions">
+        <button id="btn-close" class="btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Loader -->
+  <div id="loader" class="loader hidden">
+    <div id="loaderHeading">Processing…</div>
+    <span></span>
+  </div>
+  <!-- Fullscreen Loader -->
+  <div id="loader" class="loader hidden">
+    <div>Processing…</div>
+    <span></span>
+  </div>
+
+  <footer>© <span id="yr"></span> eSign</footer>
+
+  <script src="./script.js"></script>
+</body>
+
+</html>
